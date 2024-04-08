@@ -2,10 +2,21 @@ from flask import Blueprint, jsonify, request
 from sqlalchemy.exc import IntegrityError
 from models import Blacklist, db
 from datetime import datetime
+from functools import wraps
 
 blacklist_bp = Blueprint('blacklists', __name__)
 
+def requires_password(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        auth_header = request.headers.get('Authorization')
+        if not auth_header or not auth_header.startswith('Bearer password'):
+            return jsonify({'error': 'Invalid or missing password'}), 401
+        return f(*args, **kwargs)
+    return decorated
+
 @blacklist_bp.route('/blacklists', methods=['POST'])
+@requires_password
 def create_blacklist_entry():
     data = request.get_json()
     ip_address = request.remote_addr
@@ -21,6 +32,7 @@ def create_blacklist_entry():
     return jsonify({'message': 'Blacklist entry created successfully'}), 201
 
 @blacklist_bp.route('/blacklists/<string:email>', methods=['GET'])
+@requires_password
 def get_blacklis(email):
     entry = Blacklist.query.filter_by(email=email).first()
     response = {
