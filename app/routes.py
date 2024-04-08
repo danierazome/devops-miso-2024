@@ -3,9 +3,9 @@ from sqlalchemy.exc import IntegrityError
 from models import Blacklist, db
 from datetime import datetime
 
-blacklist_bp = Blueprint('blacklist', __name__)
+blacklist_bp = Blueprint('blacklists', __name__)
 
-@blacklist_bp.route('/blacklist', methods=['POST'])
+@blacklist_bp.route('/blacklists', methods=['POST'])
 def create_blacklist_entry():
     data = request.get_json()
     ip_address = request.remote_addr
@@ -20,7 +20,7 @@ def create_blacklist_entry():
         
     return jsonify({'message': 'Blacklist entry created successfully'}), 201
 
-@blacklist_bp.route('/blacklist/<string:email>', methods=['GET'])
+@blacklist_bp.route('/blacklists/<string:email>', methods=['GET'])
 def get_blacklis(email):
     entry = Blacklist.query.filter_by(email=email).first()
     response = {
