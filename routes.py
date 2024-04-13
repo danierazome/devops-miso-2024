@@ -3,6 +3,7 @@ from sqlalchemy.exc import IntegrityError
 from models import Blacklist, db
 from datetime import datetime
 from functools import wraps
+from marshmallow import ValidationError
 
 blacklist_bp = Blueprint('blacklists', __name__)
 

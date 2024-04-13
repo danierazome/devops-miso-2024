@@ -5,24 +5,10 @@ services:
     build: .
     ports:
       - "8080:5000"
-    depends_on:
-      - db
-    volumes:
-      - ./app:/app
-    environment:
-      SQLALCHEMY_DATABASE_URI: "postgresql://myuser:mypassword@db/mydatabase" 
-      FLASK_ENV: development 
-
-  db:
-    image: postgres:latest
     environment:
       POSTGRES_DB: mydatabase
       POSTGRES_USER: myuser
       POSTGRES_PASSWORD: mypassword
-    volumes:
-      - db_data:/var/lib/postgresql/data 
-    ports:
-      - "8081:5432"
-
-volumes:
-  db_data:
+      POSTGRES_PORT: 5432
+      POSTGRES_HOST: db-entrega1-devops-2024.ch66k0eq2upv.us-east-1.rds.amazonaws.com
+      FLASK_ENV: development
