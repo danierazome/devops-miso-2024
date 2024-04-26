@@ -1,5 +1,4 @@
 from flask import Flask
-from flask_migrate import Migrate, upgrade
 from config import Config
 from models import db
 from routes import blacklist_bp
@@ -20,11 +19,6 @@ def create_app(testing=False):
     app.config.from_object(Config)
 
     db.init_app(app)
-    migrate = Migrate(app, db)
-
-    with app.app_context():
-        upgrade()
-    print('Migraciones aplicadas correctamente')
 
     app.register_blueprint(blacklist_bp)
 
