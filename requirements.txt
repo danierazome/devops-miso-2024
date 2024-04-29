@@ -1,7 +1,7 @@
 Flask
 marshmallow
 SQLAlchemy
-psycopg2
+psycopg2-binary
 python-dotenv
 itsdangerous
 Flask-SQLAlchemy
